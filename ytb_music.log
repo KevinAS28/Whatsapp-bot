@@ -1,0 +1,26 @@
+initialized Chrome window!
+Audio set to 0
+prevent_ad() called
+Waiting for video... .html5-main-video
+Monitor audio started [debugging]
+Video detected: blob:https://music.youtube.com/8ac0f1fe-5c62-4baa-8b91-7d979b3931a4 with title 'On My Way (Piano Version)'
+Audio set to 0
+Waiting for ad...
+Video seek set to 0
+Audio set to 1
+Waiting for new video... old: blob:https://music.youtube.com/8ac0f1fe-5c62-4baa-8b91-7d979b3931a4
+
+New video detected: |blob:https://music.youtube.com/b7d64eb1-111a-4f80-a59d-dee99055d915| with title 'Memories / Canon (Piano Version)'
+Audio set to 0
+Waiting for ad...
+Video seek set to 0
+Audio set to 1
+Waiting for new video... old: blob:https://music.youtube.com/b7d64eb1-111a-4f80-a59d-dee99055d915
+
+New video detected: |blob:https://music.youtube.com/7e55e9e0-f116-4863-90eb-e8891dd33ed2| with title 'River Flows in You / Kiss the Rain (Piano Version)'
+Audio set to 0
+Waiting for ad...
+Video seek set to 0
+Audio set to 1
+Waiting for new video... old: blob:https://music.youtube.com/7e55e9e0-f116-4863-90eb-e8891dd33ed2
+

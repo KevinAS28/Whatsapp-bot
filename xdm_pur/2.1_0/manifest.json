@@ -1,0 +1,29 @@
+{
+   "background": {
+      "page": "background.html"
+   },
+   "browser_action": {
+      "default_icon": "icon.png"
+   },
+   "commands": {
+      "toggle-monitoring": {
+         "description": "Toggle monitoring",
+         "suggested_key": {
+            "default": "Ctrl+Shift+E",
+            "mac": "Command+Shift+E"
+         }
+      }
+   },
+   "description": "XDM is an open source download manager",
+   "icons": {
+      "128": "icon-128.png",
+      "48": "icon.png"
+   },
+   
+   "manifest_version": 2,
+   "minimum_chrome_version": "18.0",
+   "name": "XXXtreme Download Manager",
+   "permissions": [ "activeTab", "cookies", "contextMenus", "webRequest", "webRequestBlocking", "*://*/*" ],
+   
+   "version": "2.1"
+}

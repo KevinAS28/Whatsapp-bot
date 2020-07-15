@@ -83,6 +83,7 @@ def main():
 
     while True:
         try:
+            # driver.get("https://web.whatsapp.com/")
             get_list_chats = importlib.reload(get_list_chats)
             get_list_chats.exp(driver)
         except KeyboardInterrupt:

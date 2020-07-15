@@ -1,1 +1,69 @@
 initialized Chrome window!
+HTTPConnectionPool(host='127.0.0.1', port=52889): Max retries exceeded with url: /session/dabf4aa928dce76f93765fe78323cf2c/execute/sync (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f2c3b789790>: Failed to establish a new connection: [Errno 111] Connection refused'))
+Traceback (most recent call last):
+  File "/home/kevin/anaconda3/lib/python3.7/site-packages/urllib3/connection.py", line 157, in _new_conn
+    (self._dns_host, self.port), self.timeout, **extra_kw
+  File "/home/kevin/anaconda3/lib/python3.7/site-packages/urllib3/util/connection.py", line 84, in create_connection
+    raise err
+  File "/home/kevin/anaconda3/lib/python3.7/site-packages/urllib3/util/connection.py", line 74, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [Errno 111] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/kevin/anaconda3/lib/python3.7/site-packages/urllib3/connectionpool.py", line 672, in urlopen
+    chunked=chunked,
+  File "/home/kevin/anaconda3/lib/python3.7/site-packages/urllib3/connectionpool.py", line 387, in _make_request
+    conn.request(method, url, **httplib_request_kw)
+  File "/home/kevin/anaconda3/lib/python3.7/http/client.py", line 1252, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+  File "/home/kevin/anaconda3/lib/python3.7/http/client.py", line 1298, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+  File "/home/kevin/anaconda3/lib/python3.7/http/client.py", line 1247, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/home/kevin/anaconda3/lib/python3.7/http/client.py", line 1026, in _send_output
+    self.send(msg)
+  File "/home/kevin/anaconda3/lib/python3.7/http/client.py", line 966, in send
+    self.connect()
+  File "/home/kevin/anaconda3/lib/python3.7/site-packages/urllib3/connection.py", line 184, in connect
+    conn = self._new_conn()
+  File "/home/kevin/anaconda3/lib/python3.7/site-packages/urllib3/connection.py", line 169, in _new_conn
+    self, "Failed to establish a new connection: %s" % e
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x7f2c3b789790>: Failed to establish a new connection: [Errno 111] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "wa.py", line 349, in <module>
+    main()
+  File "wa.py", line 340, in main
+    get_chat_list(driver, [get_chat_info])
+  File "wa.py", line 164, in get_chat_list
+    position1 = driver.execute_script("return arguments[0].scrollTop", chat_pane)
+  File "/home/kevin/anaconda3/lib/python3.7/site-packages/selenium/webdriver/remote/webdriver.py", line 636, in execute_script
+    'args': converted_args})['value']
+  File "/home/kevin/anaconda3/lib/python3.7/site-packages/selenium/webdriver/remote/webdriver.py", line 319, in execute
+    response = self.command_executor.execute(driver_command, params)
+  File "/home/kevin/anaconda3/lib/python3.7/site-packages/selenium/webdriver/remote/remote_connection.py", line 374, in execute
+    return self._request(command_info[0], url, body=data)
+  File "/home/kevin/anaconda3/lib/python3.7/site-packages/selenium/webdriver/remote/remote_connection.py", line 397, in _request
+    resp = self._conn.request(method, url, body=body, headers=headers)
+  File "/home/kevin/anaconda3/lib/python3.7/site-packages/urllib3/request.py", line 80, in request
+    method, url, fields=fields, headers=headers, **urlopen_kw
+  File "/home/kevin/anaconda3/lib/python3.7/site-packages/urllib3/request.py", line 171, in request_encode_body
+    return self.urlopen(method, url, **extra_kw)
+  File "/home/kevin/anaconda3/lib/python3.7/site-packages/urllib3/poolmanager.py", line 330, in urlopen
+    response = conn.urlopen(method, u.request_uri, **kw)
+  File "/home/kevin/anaconda3/lib/python3.7/site-packages/urllib3/connectionpool.py", line 760, in urlopen
+    **response_kw
+  File "/home/kevin/anaconda3/lib/python3.7/site-packages/urllib3/connectionpool.py", line 760, in urlopen
+    **response_kw
+  File "/home/kevin/anaconda3/lib/python3.7/site-packages/urllib3/connectionpool.py", line 760, in urlopen
+    **response_kw
+  File "/home/kevin/anaconda3/lib/python3.7/site-packages/urllib3/connectionpool.py", line 720, in urlopen
+    method, url, error=e, _pool=self, _stacktrace=sys.exc_info()[2]
+  File "/home/kevin/anaconda3/lib/python3.7/site-packages/urllib3/util/retry.py", line 436, in increment
+    raise MaxRetryError(_pool, url, error or ResponseError(cause))
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='127.0.0.1', port=52889): Max retries exceeded with url: /session/dabf4aa928dce76f93765fe78323cf2c/execute/sync (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f2c3b789790>: Failed to establish a new connection: [Errno 111] Connection refused'))
+

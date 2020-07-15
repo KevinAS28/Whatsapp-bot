@@ -9,10 +9,22 @@ class_names = {
     "last_seen": "//span[contains(@class, '_3-cMa _3Whw5')]",
     "msg_box": "//div[contains(@class, '_3FRCZ copyable-text selectable-text') and @contenteditable='true' and @data-tab='1']",
     "msg_container": "/html/body/div[1]/div/div/div[4]/div/footer/div[1]/div[2]",
+    "pane_side": "//div[@id='pane-side']",
+    "search_box": "//div[contains(@class, '_3FRCZ copyable-text selectable-text') and @contenteditable='true' and @data-tab='3']",
+    "search_container": "/html/body/div[1]/div/div/div[3]/div/div[1]/div/label/div",
+    "search_result_list": "//div[@aria-label='Search results.']"
     
     }
 import os, time, math
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+import traceback
+from selenium import webdriver, common
+from browsermobproxy import Server
+from pathlib import Path, PureWindowsPath
+from threading import Thread
 
 def extract_msg(msg):
     if msg.tag_name == "img":
@@ -32,18 +44,23 @@ def extract_msg(msg):
         return msg.get_attribute("innerHTML")
     
 
-def send_msg(driver, chat):
-    try:
-        chat.click()
-    except:
-        print("send_msg(): error while click")
-    bot_msg = "Hello, this is kevin bot. this account is using custom bot. Kevin is not holding his phone right now. He will reply you soon :)"
+def send_msg(driver, chat=False, bot_msg = "Hello, this is Kevin Bot. Kevin is not holding his phone right now. He will reply you soon :)", quit_chat=True):
+    if chat!=False:
+        try:
+            chat.click()
+        except:
+            print("send_msg(): error while click")
     msg_box = driver.find_element_by_xpath(class_names["msg_box"])
     msg_container = driver.find_element_by_xpath(class_names["msg_container"])
     driver.execute_script("arguments[0].focus();", msg_container)
     # driver.execute_script(f"arguments[0].innerHTML='{bot_msg}'", msg_box)
     msg_box.send_keys(bot_msg + Keys.ENTER)
     print(bot_msg)
+    if quit_chat:
+        go_to_chat(driver, "Self")
+
+def test_chat(driver, chat):
+    print("this is a chat")
 
 def get_chat_info(driver, chat0):
     chat = chat0.find_elements_by_xpath("./div/div/div")
@@ -53,23 +70,6 @@ def get_chat_info(driver, chat0):
         #no dp 
         dp = ""
     text = chat[1].find_elements_by_xpath("./div")
-    name_day = text[0].find_elements_by_xpath("./*")
-    name = None
-    try:
-        
-        name = name_day[0].find_element_by_xpath("./span/span").get_attribute("title")
-    except:
-        try:
-            
-            name = name_day[0].find_element_by_xpath("./div/span").get_attribute("title")
-            
-        except:
-            print("Cannot get name")
-                
-    
-    day = name_day[1].get_attribute("innerHTML")
-    
-    msg = text[1].find_element_by_xpath("./div/span").find_elements_by_xpath("./*") #inside _2iq-U#[i.tag_name for i in text[1].find_element_by_xpath("./div/span").find_elements_by_xpath("./*")]
 
     new_msg = False
     try:
@@ -79,49 +79,47 @@ def get_chat_info(driver, chat0):
     except:
         pass
 
-    print(name, new_msg)
-
     if new_msg:
         send_msg(driver, chat0)
 
-    if len(msg)==1: #you received msg
-        msg = extract_msg(msg[0])
-    elif len(msg)==2: #p2p chat you sent msg
-        check_read = msg[0]
-        try:
-            msg = extract_msg(msg[1].find_element_by_xpath("./*"))
-        except:
-            msg = msg[1].get_attribute("innerHTML")
-
-    else:
-        sender = msg[0]
-        msg = extract_msg(msg[2])
+    # name_day = text[0].find_elements_by_xpath("./*")
+    # name = None
+    # try:
         
-    
-    # if len(msg.find_elements_by_xpath("./*"))==0:
-    #     msg = msg.get_attribute("innerHTML")    
-    # else:
-    #     msg = msg.find_elements_by_xpath("./*")[0]
-    #     
-
-
-    return [dp, name, msg, day, new_msg]
-
-def scroll_page(driver, webelement, scrollPoints):
-
-    try:
+    #     name = name_day[0].find_element_by_xpath("./span/span").get_attribute("title")
+    # except:
+    #     try:
+            
+    #         name = name_day[0].find_element_by_xpath("./div/span").get_attribute("title")
+            
+    #     except:
+    #         print("Cannot get name")
                 
-        
-        return True;
     
-    except Exception as e:
+    # day = name_day[1].get_attribute("innerHTML")
     
-        e.printStackTrace()
-        return False
-    
+    # msg = text[1].find_element_by_xpath("./div/span").find_elements_by_xpath("./*") #inside _2iq-U#[i.tag_name for i in text[1].find_element_by_xpath("./div/span").find_elements_by_xpath("./*")]
 
 
-def get_chat_list(driver, functions):
+    # if len(msg)==1: #you received msg
+    #     msg = extract_msg(msg[0])
+    # elif len(msg)==2: #p2p chat you sent msg
+    #     check_read = msg[0]
+    #     try:
+    #         msg = extract_msg(msg[1].find_element_by_xpath("./*"))
+    #     except:
+    #         msg = msg[1].get_attribute("innerHTML")
+
+    # else:
+    #     sender = msg[0]
+    #     msg = extract_msg(msg[2])
+
+
+    # return [dp, name, msg, day, new_msg]
+    return [new_msg]
+
+
+def get_chat_list(driver, functions, limit=-1):
     #back scroll up
     chat_pane = driver.execute_script("return document.getElementById('pane-side');")
     driver.execute_script(f"arguments[0].scrollTop = 0;", chat_pane)
@@ -139,19 +137,24 @@ def get_chat_list(driver, functions):
     # print(count_until_changed_all_px, chat_height, len(chat_list_temp))
     # driver.execute_script(f"return arguments[0].scrollBy(0,{count_until_changed_all_px});", chat_pane)
     # return []
+
     # functions[0](driver, chat_list_temp[8])
     # return 
 
     results = [[] for i in functions]
+    
     for i in range(int(math.ceil(pane_height/count_until_changed_all_px))):
         time.sleep(0.5)
-        chat_pane = driver.execute_script("return document.getElementById('pane-side');")
+        chat_pane = driver.find_element_by_xpath(class_names["pane_side"])
         chat_list_container = driver.find_element_by_xpath(class_names["chat_list"]) #redifined for refresh
         
-        fun_index = 0
+        
         position0 = driver.execute_script("return arguments[0].scrollTop", chat_pane)
-        for fun in functions:
-            for chat in chat_list.find_elements_by_xpath("./*"):
+
+        for chat in chat_list.find_elements_by_xpath("./*"):
+            
+            fun_index = 0
+            for fun in functions:
                 try:
                     fun_return = fun(driver, chat)
                 except:
@@ -164,9 +167,10 @@ def get_chat_list(driver, functions):
                 driver.execute_script(f"return arguments[0].scrollTop = {position0};", chat_pane)
                 #refresh the chat list
                 chat_list_container = driver.find_element_by_xpath(class_names["chat_list"]) #redifined for refresh
-                
 
-            fun_index+=1
+                fun_index+=1
+                
+            print("chat has been processed")
 
         
         driver.execute_script(f"return arguments[0].scrollBy(0,{count_until_changed_all_px});", chat_pane)
@@ -174,26 +178,25 @@ def get_chat_list(driver, functions):
     
 
     #back scroll up
-    chat_pane = driver.execute_script("return document.getElementById('pane-side');")
+    chat_pane = driver.find_element_by_xpath(class_names["pane_side"])
     driver.execute_script(f"arguments[0].scrollTop = 0;", chat_pane)
 
     return results
 
 
 
-def get_clicked_info(driver, chat):
+def get_clicked_info(driver, chat=False):
     
     # chat_list = get_chat_list(driver)
     # for chat in chat_list:
 
-    
-
     error = False
-    try:
-        chat.click()
-    except:
-        print("error while click")
-        error = True
+    if chat!=False:
+        try:
+            chat.click()
+        except:
+            print("error while click")
+            error = True
     time.sleep(0.5)
     dp, name, msg, day, new_msg = get_chat_info(driver, chat)
         
@@ -217,7 +220,27 @@ def get_clicked_info(driver, chat):
             #print("offline")
             return [name, "Offline"]
             # break
-            
+
+def go_to_chat(driver, name):
+    msg_box = driver.find_element_by_xpath(class_names["search_box"])
+    msg_container = driver.find_element_by_xpath(class_names["search_container"])
+    driver.execute_script("arguments[0].focus();", msg_container)
+    # driver.execute_script(f"arguments[0].innerHTML='{bot_msg}'", msg_box)
+    msg_box.send_keys(name)
+    time.sleep(1)
+    msg_box.send_keys(Keys.DOWN)
+    msg_box.send_keys(Keys.ESCAPE)
+    # search_list = driver.find_element_by_xpath(class_names["chat_list"]).find_elements_by_xpath("./*")
+    # search_list[0].click()
+    # print(len(search_list))
+
+def wait_until_ready(driver, timeout=60):
+    print("Loading...")
+    WebDriverWait
+    wait = WebDriverWait(driver, timeout)
+    waited_element = wait.until(EC.presence_of_element_located((By.XPATH, class_names["chat_list"])))
+    print("READY")
+    return waited_element
 
 def exp(driver):
     import traceback
@@ -240,11 +263,94 @@ def exp(driver):
         #     except:
         #         errors+=1
         
-        chat_info = get_chat_list(driver, [ get_chat_info])
+        #chat_info = get_chat_list(driver, [ get_chat_info])
         # for info in chat_info[0]:
         #     print(info)
         #     print("\n")
         # print(chat_info)
+        driver.get("https://web.whatsapp.com/")
+        wait_until_ready(driver)
+        
         
     except:
         traceback.print_exc()
+
+
+script_path = os.path.realpath(__file__)
+script_dir = os.path.split(script_path)[0]
+user_dir = os.path.join(script_dir, "gc")
+log_file = os.path.join(script_dir, "wa.log")
+
+def log(*msg, print_msg=True, encode=False):    
+    msg = " ".join(msg)+"\n"
+    
+    if (encode):
+        msg = msg.encode('utf-8')
+        
+    with open(log_file, "ba+" if encode else "a+") as logger:
+        logger.write(msg)
+        
+    if print_msg:
+        print(msg, end="")
+
+driver = None
+proxy = None
+server = None
+wait = None
+log("user_dir:", user_dir)
+
+
+
+def initialize_chrome():
+    global driver
+    global server
+    global proxy
+    dict={'port':8090}
+
+    server = Server(path=os.path.join(script_dir, "binaries/browsermob-proxy-2.1.4/bin/browsermob-proxy"), options=dict)
+    server.start()
+    proxy = server.create_proxy()
+    chrome_options = webdriver.ChromeOptions()
+    # chrome_options.headless = True
+    chrome_options.add_argument(f"--user-data-dir={user_dir}")
+    driver = webdriver.Chrome(str(Path(os.path.join(script_dir, "binaries/chromedriver83")).absolute()), options = chrome_options)
+    # driver = webdriver.PhantomJS(str(Path(os.path.join(script_dir, "phantom_js/bin/phantomjs")).absolute()))
+    log('initialized Chrome window!')
+
+def keep_focus(driver):
+    print("Keep focus started")
+    
+    while True:
+        driver.execute_script("document.getElementById('pane-side').click()")
+        driver.execute_script("document.getElementById('pane-side').focus()")
+        time.sleep(0.2)
+
+def main():    
+    if os.path.isfile(log_file):
+        os.remove(log_file)
+    open(log_file, "w+").close()
+    
+    initialize_chrome()
+    driver.get("https://web.whatsapp.com/")
+    wait_until_ready(driver)
+
+    Thread(target=keep_focus, args=[driver]).start()
+
+    while True:
+        get_chat_list(driver, [get_chat_info])
+
+    input("Done?")
+    driver.quit()
+
+
+
+if __name__=="__main__":
+    try:
+        main()
+    except KeyboardInterrupt:
+        log("CTRL + C hitted. Hope you enjoy your media :)")
+    except Exception as error:
+        log(str(error))
+        log(traceback.format_exc())
+    
+    

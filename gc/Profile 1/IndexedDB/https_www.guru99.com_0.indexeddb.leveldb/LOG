@@ -1,0 +1,5 @@
+2020/07/02-16:38:03.964 190c2 Reusing MANIFEST /media/data/programming/python_saya/wa_automated/gc/Profile 1/IndexedDB/https_www.guru99.com_0.indexeddb.leveldb/MANIFEST-000001
+2020/07/02-16:38:18.653 18b7c Level-0 table #5: started
+2020/07/02-16:38:19.005 18b7c Level-0 table #5: 1023 bytes OK
+2020/07/02-16:38:19.370 18b7c Delete type=0 #3
+2020/07/02-16:38:19.374 18b7c Manual compaction at level-0 from (begin) .. (end); will stop at (end)

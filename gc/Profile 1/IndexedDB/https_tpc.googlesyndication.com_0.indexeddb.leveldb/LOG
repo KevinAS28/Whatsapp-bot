@@ -1,0 +1,8 @@
+2020/07/15-14:56:38.997 ca79 Reusing MANIFEST /media/data/programming/python_saya/wa_automated/gc/Profile 1/IndexedDB/https_tpc.googlesyndication.com_0.indexeddb.leveldb/MANIFEST-000001
+2020/07/15-14:56:39.042 ca79 Recovering log #14
+2020/07/15-14:56:39.042 ca79 Reusing old log /media/data/programming/python_saya/wa_automated/gc/Profile 1/IndexedDB/https_tpc.googlesyndication.com_0.indexeddb.leveldb/000014.log 
+2020/07/15-14:56:48.601 cb8a Level-0 table #18: started
+2020/07/15-14:56:48.602 cb8a Level-0 table #18: 0 bytes OK
+2020/07/15-14:56:48.874 cb8a Delete type=0 #14
+2020/07/15-14:56:48.875 cb8a Manual compaction at level-0 from (begin) .. (end); will stop at (end)
+2020/07/15-14:56:48.876 cb8a Manual compaction at level-1 from (begin) .. (end); will stop at (end)

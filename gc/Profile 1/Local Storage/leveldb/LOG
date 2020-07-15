@@ -1,0 +1,15 @@
+2020/07/15-14:53:25.842 c9ba Reusing MANIFEST /media/data/programming/python_saya/wa_automated/gc/Profile 1/Local Storage/leveldb/MANIFEST-000001
+2020/07/15-14:53:25.851 c9ba Recovering log #103
+2020/07/15-14:53:25.854 c9ba Reusing old log /media/data/programming/python_saya/wa_automated/gc/Profile 1/Local Storage/leveldb/000103.log 
+2020/07/15-14:55:11.786 cace Level-0 table #107: started
+2020/07/15-14:55:12.228 cace Level-0 table #107: 38531 bytes OK
+2020/07/15-14:55:12.490 cace Delete type=0 #103
+2020/07/15-14:55:12.492 cace Compacting 4@0 + 1@1 files
+2020/07/15-14:55:12.755 cace Generated table #108@0: 374 keys, 59650 bytes
+2020/07/15-14:55:12.755 cace Compacted 4@0 + 1@1 files => 59650 bytes
+2020/07/15-14:55:12.954 cace compacted to: files[ 0 1 1 0 0 0 0 ]
+2020/07/15-14:55:12.988 cace Delete type=2 #95
+2020/07/15-14:55:12.988 cace Delete type=2 #98
+2020/07/15-14:55:12.989 cace Delete type=2 #100
+2020/07/15-14:55:12.989 cace Delete type=2 #104
+2020/07/15-14:55:12.989 cace Delete type=2 #107

@@ -1,0 +1,8 @@
+2020/07/02-20:58:16.595 1d005 Reusing MANIFEST /media/data/programming/python_saya/wa_automated/gc/Profile 1/IndexedDB/https_www.youtube.com_0.indexeddb.leveldb/MANIFEST-000001
+2020/07/02-20:58:16.596 1d005 Recovering log #7
+2020/07/02-20:58:16.596 1d005 Reusing old log /media/data/programming/python_saya/wa_automated/gc/Profile 1/IndexedDB/https_www.youtube.com_0.indexeddb.leveldb/000007.log 
+2020/07/02-21:07:41.208 18b7c Level-0 table #12: started
+2020/07/02-21:07:41.209 18b7c Level-0 table #12: 0 bytes OK
+2020/07/02-21:07:41.433 18b7c Delete type=0 #7
+2020/07/02-21:07:41.433 18b7c Manual compaction at level-0 from (begin) .. (end); will stop at (end)
+2020/07/02-21:07:41.434 18b7c Manual compaction at level-1 from (begin) .. (end); will stop at (end)
